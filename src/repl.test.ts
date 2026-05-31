@@ -1,4 +1,4 @@
-import { cleanInput } from "./repl.ts";
+import { cleanInput } from "./repl.js";
 
 import { describe, expect, test } from "vitest";
 
