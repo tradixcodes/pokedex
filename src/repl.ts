@@ -1,55 +1,33 @@
-import { createInterface } from "node:readline";
-import { commandExit } from "./command_exit.js";
-import { commandHelp } from "./command_help.js";
-import { Command } from "./command.js";
+import { initState, type State } from "./state.js"
 
 export function cleanInput(input: string): string[]{
   return input.trim().split(/\s+/).filter(Boolean).map(word => word.toLowerCase());
 }
 
-export function startREPL() {
-  const rl = createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    prompt: ">> ",
-  });
+export function startREPL(state: State): void {
+  state.rl.prompt();
 
-  const commands: Record<string, Command> = {
-    exit: {
-      name: "exit",
-      description: "Exits the pokedex",
-      callback: commandExit,
-    },
-    help: {
-      name: "help",
-      description: "Displays a help message",
-      callback: commandHelp,
-    }
-  };
-
-  rl.prompt();
-
-  rl.on("line", (input: string) => {
+  state.rl.on("line", (input: string) => {
     const parsedInput = cleanInput(input);
     
     if (!parsedInput.length){
-     rl.prompt();
+     state.rl.prompt();
       return;
     }
     
     const commandName = parsedInput[0];
-    const command = commands[commandName];
+    const command = state.commands[commandName];
 
     if (command){
-      command.callback(commands);
+      command.callback(state);
     } else {
       console.log(`Unknown command: ${commandName}`);
     }
 
-    rl.prompt();
+    state.rl.prompt();
 });
 
-  rl.on("close", () => {
+  state.rl.on("close", () => {
     process.exit(0);
   });
 }
