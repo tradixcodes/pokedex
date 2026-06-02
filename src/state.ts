@@ -1,6 +1,7 @@
 import { createInterface, type Interface } from "readline";
 import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
+import { commandMap } from "./command_map.js";
 
 export type Command = {
   name: string;
@@ -11,6 +12,7 @@ export type Command = {
 export type State = {
   rl: Interface;
   commands: Record<string, Command>;
+  offset?: number;
 };
 
 export function initState (): State {
@@ -30,6 +32,11 @@ export function initState (): State {
       name: "help",
       description: "Displays a help message",
       callback: commandHelp,
+    },
+    map: {
+      name: "map",
+      description: "Displays the names of the 20 location areas in the Pokemon world",
+      callback: commandMap,
     },
   };
 
