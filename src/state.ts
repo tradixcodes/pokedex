@@ -2,6 +2,7 @@ import { createInterface, type Interface } from "readline";
 import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
 import { commandMap } from "./command_map.js";
+import { commandMapb } from "./command_mapb.js";
 
 export type Command = {
   name: string;
@@ -12,7 +13,8 @@ export type Command = {
 export type State = {
   rl: Interface;
   commands: Record<string, Command>;
-  offset?: number;
+  nextURL?: string;
+  previousURL?: string;
 };
 
 export function initState (): State {
@@ -37,6 +39,11 @@ export function initState (): State {
       name: "map",
       description: "Displays the names of the 20 location areas in the Pokemon world",
       callback: commandMap,
+    },
+    mapb: {
+      name: "mapb",
+      description: "Displays the previous 20 location areas",
+      callback: commandMapb,
     },
   };
 

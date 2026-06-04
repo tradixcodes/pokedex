@@ -6,8 +6,14 @@ const reset = "\x1b[0m";
 
 const pokeAPI = new PokeAPI();
 
-export async function commandMap(state: State): Promise<void> {
-  const data = await pokeAPI.fetchLocations(state.nextURL);
+export async function commandMapb(state: State): Promise<void> {
+  if (!state.previousURL) {
+    console.log("you're on the first page");
+    state.rl.prompt();
+    return;
+  }
+
+  const data = await pokeAPI.fetchLocations(state.previousURL);
   state.nextURL = data.next ?? undefined;
   state.previousURL = data.previous ?? undefined;
 
