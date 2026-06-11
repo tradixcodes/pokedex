@@ -8,7 +8,7 @@
     "start": "node dist/main.js",
     "build": "npx tsc",
     "dev": "npx tsc && node dist/main.js",
-    "test": "vitest --run"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
