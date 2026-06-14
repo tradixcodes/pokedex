@@ -5,7 +5,9 @@ import { commandMap } from "./command_map.js";
 import { commandMapb } from "./command_mapb.js";
 import { commandExplore } from "./command_explore.js";
 import { commandCatch } from "./command_catch.js";
-import { PokeAPI, Pokemon } from "./pokeapi.js";
+import { commandPokedex } from "./command_pokedex.js";
+import { commandInspect } from "./command_inspect.js";
+import { PokeAPI, type Pokemon, type LocationArea } from "./pokeapi.js";
 
 // describes the shape of a single command entry
 export type Command = {
@@ -22,6 +24,7 @@ export type State = {
   nextURL?: string;                     // URL for the next page of map results (optional)
   previousURL?: string;                 // URL for the previous page of map results (optional)
   pokedex: Record<string, Pokemon>;
+  lastExploredArea?: LocationArea;      // optional especially when nothing is explored yet
 };
 
 export function initState (): State {
@@ -63,6 +66,16 @@ export function initState (): State {
       name: "catch",
       description: "Attempt to catch a Pokemon",
       callback: commandCatch,
+    },
+    pokedex: {
+      name: "pokedex",
+      description: "Lists all the Pokemon you have caught",
+      callback: commandPokedex,
+    },
+    inspect: {
+      name: "inspect",
+      description: "Inspect a caught Pokemon's details",
+      callback: commandInspect,
     },
   };
 
